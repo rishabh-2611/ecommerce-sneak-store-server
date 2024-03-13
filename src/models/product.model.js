@@ -1,6 +1,7 @@
 import mongoose from 'mongoose'
 const ObjectId = mongoose.Types.ObjectId
 const Schema = mongoose.Schema
+import { ProductCategories, ProductBrands, ProductGenders, ProductMaterials, ProductSizes } from '../constants/product.enum.js'
 
 const productSchema = new Schema({
   name: {
@@ -12,34 +13,39 @@ const productSchema = new Schema({
     type: String,
     default: ''
   },
-  category: {
-    type: String,
-    enum: ["sneakers","boots", "sandals", "shoes", "heels", "slippers", "flip flops", "other"],
-    default: 'other'
-  },
   details:{
     _id: false,
     type: Object,
+    category: {
+      type: String,
+      enum: ProductCategories,
+      default: 'other'
+    },
     brand: {
       type: String,
+      enum: ProductBrands,
       default: ''
     },
     gender: {
       type: String,
-      enum: ["men", "women", "unisex", "boy", "girl"],
+      enum: ProductGenders,
       default: 'other'
     },
     material: {
       type: String,
-      default: ''
+      enum: ProductMaterials,
+      default: "N/A"
     },
   },
   sizes: [{
     _id: false,
-    name: String,
+    name: {
+      type: String,
+      enum: ProductSizes
+    },
     quantity: Number,
   }],
-  price: {
+  originalPrice: {
     type: Number,
     required: true
   },
@@ -47,7 +53,7 @@ const productSchema = new Schema({
     type: Number,
     default: 0
   },
-  originalPrice: {
+  price: {
     type: Number,
     required: true
   },

@@ -1,3 +1,5 @@
+import { ProductCategories, ProductBrands, ProductGenders, ProductMaterials, ProductSizes } from '../constants/product.enum.js';
+
 const createProduct = {
     type: "object",
     properties: {
@@ -10,17 +12,22 @@ const createProduct = {
         type: "string",
         isNotEmpty: false,
       },
-      category: { type: "string", enum: ["sneakers","boots", "sandals", "shoes", "heels", "slippers", "flip flops", "other"], errorMessage: "Should be a valid category" },
       details: {
         type: "object",
-        brand: { type: "string" },
-        gender: { type: "string" },
-        material: { type: "string" },
+        properties: {
+          category: { type: "string", enum: ProductCategories, errorMessage: "Should be a valid category" },
+          brand: { type: "string", enum: ProductBrands, errorMessage: "Should be a valid brand"},
+          gender: { type: "string", enum: ProductGenders, errorMessage: "Should be a valid gender" },
+          material: { type: "string", enum: ProductMaterials, errorMessage: "Should be a valid material" },
+        },
+        required: ["category", "brand", "gender", "material"],
       },
       sizes: {
         type: "array",
-        name: { type: "string" },
-        quantity: { type: "string" }
+        properties: {
+          name: { type: "string", enum: ProductSizes, errorMessage: "Should have valid size"},
+          quantity: { type: "string" }
+        }
       },
       price: { type: "number", errorMessage: "Should be a valid number" },
       discount: { type: "number", errorMessage: "Should be a valid number" },
@@ -37,7 +44,7 @@ const createProduct = {
         errorMessage: 'Should be a valid user id'
       }
     },
-    required: ["name", "category", "price", "quantity"],
+    required: ["name", "description", "price"],
     additionalProperties: true,
   };
   
