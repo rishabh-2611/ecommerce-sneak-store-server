@@ -1,5 +1,6 @@
 // import config from 'config'
 import mongoose from "mongoose";
+import fs from "fs";
 /** Import App Modules */
 import mediaRepo from "../repositories/media.repo.js";
 import generalUtil from "../utils/general.util.js";
@@ -48,6 +49,45 @@ async function createMedia(req, res) {
   res.status(500).json({ message: "Error geting medias" });
 }
 
+async function uploadFiles (req, res) {
+  try {
+    if (!req.files || !req.body.category) return res.status(400).send({ message: 'Bad request' })
+    const { category } = req.body
+
+    const allPromises = []
+    for(let i = 0; i < req.files.length; i++) {
+      const file = req.files[i]
+
+      const extension = file.mimetype.split('/')[1]
+      const name = new Date().getTime() + '.' + extension
+      const url = file.destination + name
+      const fileType = file.mimetype.split('/')[0]
+      // If uploaded file is not image or video then discard the file
+      if (!['image','video'].includes(fileType)) continue
+      
+      // Rename files
+      fs.renameSync(file.path, url)
+
+      const imageDoc = {
+        name,
+        category,
+        fileType,
+        url,
+        uploadedBy: req.user._id,
+      }
+
+      allPromises.push(mediaRepo.createMedia(imageDoc))
+    }
+
+    const promisesResult = await Promise.all(allPromises)
+    return res.json({ message: 'Media uploaded successfully', data: promisesResult })
+  } catch (err) {
+    console.error('Error - uploadFile', err.message)
+  }
+
+  res.status(500).json({ message: 'Error uploading file' })
+}
+
 async function updateMedia(req, res) {
   try {
     const filterQuery = {_id: req.params.id, uploadedBy: req.user._id};
@@ -90,5 +130,6 @@ export default {
   getMedias,
   getMedia,
   updateMedia,
-  deleteMedia
+  deleteMedia,
+  uploadFiles
 };

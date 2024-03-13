@@ -17,7 +17,7 @@ export default function register(app) {
   app.post('/api/v1/logout', authenticationMiddleware.authenticate, authController.logout)
   
   app.use('/api/v1/carts', cartRoutes);
-  app.use('/api/v1/medias', mediaRoutes);
+  app.use('/api/v1/media', mediaRoutes);
   app.use('/api/v1/products', productRoutes);
   app.use('/api/v1/reviews', reviewRoutes);
   app.use('/api/v1/wishlists', wishlistRoutes);

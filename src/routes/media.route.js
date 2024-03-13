@@ -6,6 +6,8 @@ import mediaSchema from '../validations/media.validation.js'
 import mediaController from '../controllers/media.controller.js'
 import authenticationMiddleware from '../middlewares/authentication.middleware.js'
 const router = Router()
+import multer from 'multer'
+const upload = multer({ dest: 'public/assets/uploads/' })
 
 router.get('/',
   authenticationMiddleware.authenticate,
@@ -17,8 +19,8 @@ router.get('/:id',
 
 router.post('/',
   authenticationMiddleware.authenticate,
-  validate(mediaSchema.createMedia),
-  mediaController.createMedia)
+  upload.array('files[]'),
+  mediaController.uploadFiles)
 
 router.patch('/:id',
   authenticationMiddleware.authenticate,

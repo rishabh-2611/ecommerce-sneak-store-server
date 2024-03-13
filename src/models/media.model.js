@@ -4,10 +4,6 @@ const ObjectId = mongoose.Types.ObjectId
 
 const mediaSchema = new Schema({
   name: String,
-  file: {
-    type: String,
-    required: true
-  },
   url: {
     type: String
   },
@@ -15,9 +11,9 @@ const mediaSchema = new Schema({
     type: String,
     enum: ['image', 'video']
   },
-  type: {
+  category: {
     type: String,
-    enum: ['user', 'product']
+    enum: ['user', 'product', 'review']
   },
   uploadedBy: {
     type: ObjectId,
