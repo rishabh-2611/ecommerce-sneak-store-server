@@ -45,6 +45,9 @@ app.use(
   })
 )
 
+/** Make public folder static */
+app.use(express.static('./public'))
+
 /** Cookie Parser */
 app.use(cookieParser())
 

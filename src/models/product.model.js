@@ -43,7 +43,9 @@ const productSchema = new Schema({
       type: String,
       enum: ProductSizes
     },
-    quantity: Number,
+    quantity: {
+      type: Number,
+    }
   }],
   originalPrice: {
     type: Number,

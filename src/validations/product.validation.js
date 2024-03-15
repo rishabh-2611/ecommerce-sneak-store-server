@@ -46,9 +46,35 @@ const createProduct = {
     },
     required: ["name", "description", "price"],
     additionalProperties: true,
-  };
+};
+
+const defaultProjectionQuery = {
+  name: 1,
+  description: 1,
+  details: 1,
+  originalPrice: 1,
+  discount: 1,
+  price: 1,
+  images: 1,
+  rating: 1,
+  totalRatings: 1,
+  seller: 1
+}
+
+const defaultPopulateQuery = [
+  {
+    path: 'images',
+    select: 'url'
+  },
+  {
+    path: 'seller',
+    select: 'details'
+  }
+]
   
 export default {
   createProduct,
+  defaultProjectionQuery,
+  defaultPopulateQuery
 };
   

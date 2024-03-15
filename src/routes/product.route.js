@@ -8,11 +8,11 @@ import authenticationMiddleware from '../middlewares/authentication.middleware.j
 const router = Router()
 
 router.get('/',
-  authenticationMiddleware.authenticate,
+  // authenticationMiddleware.authenticate,
   productController.getProducts)
 
 router.get('/:id',
-  authenticationMiddleware.authenticate,
+  // authenticationMiddleware.authenticate,
   productController.getProduct)
 
 router.post('/',

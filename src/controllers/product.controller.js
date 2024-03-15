@@ -41,7 +41,7 @@ async function createProduct(req, res) {
     const productObj = req.body;
     productObj.seller = req.user._id
     const newProduct = await productRepo.createProduct(productObj);
-    return res.json({ data: newProduct });
+    return res.json({ message: 'Product added successfully', data: newProduct });
   } catch (err) {
     console.error("Error - createProduct", err.message);
   }

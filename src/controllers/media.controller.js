@@ -60,13 +60,13 @@ async function uploadFiles (req, res) {
 
       const extension = file.mimetype.split('/')[1]
       const name = new Date().getTime() + '.' + extension
-      const url = file.destination + name
+      const url = '/assets/uploads/' + name
       const fileType = file.mimetype.split('/')[0]
       // If uploaded file is not image or video then discard the file
       if (!['image','video'].includes(fileType)) continue
       
       // Rename files
-      fs.renameSync(file.path, url)
+      fs.renameSync(file.path, file.destination + name)
 
       const imageDoc = {
         name,
