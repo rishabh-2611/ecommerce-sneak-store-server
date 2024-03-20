@@ -6,9 +6,9 @@ const userSchema = new Schema({
   email: { type: String, required: true, unique: true },
   isEnabled: Boolean,
   lastActivity: Date,
-  role: {
+  type: {
     type: String,
-    enum: ['admin', 'buyer', 'seller'],
+    enum: ['Admin', 'Buyer', 'Seller'],
     default: 'buyer'
   },
   credentials: {
@@ -16,6 +16,7 @@ const userSchema = new Schema({
     password: String
   },
   details: {
+    name: String,
     firstName: String,
     lastName: String,
   },
@@ -31,6 +32,15 @@ const userSchema = new Schema({
     type: ObjectId,
     ref: 'Wishlist'
   },
+  addresses: [{
+    _id: false,
+    name: String,
+    address: String,
+    person: {
+      name: String,
+      contact: String
+    }
+  }],
   resetPasswordToken: String, 
   resetPasswordTokenExpiry: Date
 }, {
@@ -43,7 +53,7 @@ userSchema.index({
   'details.firstName': 'text',
   'details.lastName': 'text',
   'details.title': 'text',
-  role: 'text'
+  type: 'text'
 })
 
 export default mongoose.model('User', userSchema)

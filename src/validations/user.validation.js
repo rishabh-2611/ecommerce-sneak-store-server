@@ -20,7 +20,7 @@ const userProperties = {
     },
     additionalProperties: false
   },
-  role: { type: "string", enum: ["admin", "buyer", "seller"], errorMessage: "Should be a valid role" }
+  type: { type: "string", enum: ["Admin", "Buyer", "Seller"], errorMessage: "Should be a valid type" }
 }
 
 
@@ -79,6 +79,7 @@ const defaultProjectionQuery = {
   isEnabled: 1,
   lastActivity: 1,
   credentials: 1,
+  type: 1,
   details: 1,
   resetPasswordToken: 1,
   resetPasswordTokenExpiry: 1,

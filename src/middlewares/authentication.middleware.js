@@ -29,20 +29,16 @@ async function login (req) {
         reject(info)
       } else {
         const maxAge = '24h'
-        const userInfo = {
-          _id: user._id,
-          email: user.email
-        }
 
         const userDetails = {
           _id: user._id,
           email: user.email,
           name: `${user.details.firstName} ${user.details.lastName}`,
-          role: user.role,
+          type: user.type,
           // wishlist: user.wishlist
           // cart: user.cart
         }
-        const token = jwt.sign(userInfo, config.jwt_secret, { expiresIn: maxAge })
+        const token = jwt.sign(userDetails, config.jwt_secret, { expiresIn: maxAge })
         resolve({ token, userDetails })
       }
     })(req)
@@ -73,7 +69,7 @@ function acceptRequest (req, user, next) {
     isEnabled: user.isEnabled,
     email: user.email,
     name: `${user.details.firstName} ${user.details.lastName}`,
-    role: user.role
+    type: user.type
   }
 
   // console.log(req)
