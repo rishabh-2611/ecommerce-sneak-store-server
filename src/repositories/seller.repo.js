@@ -22,9 +22,26 @@ async function getProduct (filterQuery, projection = defaultProjectionQuery, pop
   return await ProductModel.findOne(filterQuery, projection).populate(populateQuery).lean().exec()
 }
 
+async function createProduct (productObj) {
+  const newProduct = new ProductModel(productObj)
+  await newProduct.save()
+  const filterQuery = { _id: newProduct._id }
+  return await getProduct(filterQuery)
+}
+
+async function updateProduct (filterQuery, updateObj) {
+  return await ProductModel.findOneAndUpdate(filterQuery, updateObj, { new: true }).exec()
+}
+
+async function deleteProduct (filterQuery) {
+  return await ProductModel.deleteOne(filterQuery).exec()
+}
 
 export default {
+  createProduct,
   getProducts,
   getProductsWithCount,
-  getProduct
+  getProduct,
+  updateProduct,
+  deleteProduct
 };

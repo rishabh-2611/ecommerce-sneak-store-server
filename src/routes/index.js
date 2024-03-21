@@ -8,6 +8,7 @@ import cartRoutes from "../routes/cart.route.js";
 import mediaRoutes from "../routes/media.route.js";
 import productRoutes from "../routes/product.route.js";
 import reviewRoutes from "../routes/review.route.js";
+import sellerRoutes from "../routes/seller.route.js";
 import wishlistRoutes from "../routes/wishlist.route.js";
 
 
@@ -20,6 +21,7 @@ export default function register(app) {
   app.use('/api/v1/media', mediaRoutes);
   app.use('/api/v1/products', productRoutes);
   app.use('/api/v1/reviews', reviewRoutes);
+  app.use('/api/v1/seller', sellerRoutes);
   app.use('/api/v1/wishlists', wishlistRoutes);
 
 

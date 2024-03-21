@@ -1,52 +1,39 @@
-import { ProductCategories, ProductBrands, ProductGenders, ProductMaterials, ProductSizes } from '../constants/product.enum.js';
+import { ProductCategories, ProductBrands, ProductGenders, ProductMaterials, ProductSizes } from '../constants/enums/product.enum.js';
 
-const createProduct = {
-    type: "object",
-    properties: {
-      name: {
-        type: "string",
-        errorMessage: "Should be a valid name",
-        isNotEmpty: true,
-      },
-      description: {
-        type: "string",
-        isNotEmpty: false,
-      },
-      details: {
-        type: "object",
-        properties: {
-          category: { type: "string", enum: ProductCategories, errorMessage: "Should be a valid category" },
-          brand: { type: "string", enum: ProductBrands, errorMessage: "Should be a valid brand"},
-          gender: { type: "string", enum: ProductGenders, errorMessage: "Should be a valid gender" },
-          material: { type: "string", enum: ProductMaterials, errorMessage: "Should be a valid material" },
-        },
-        required: ["category", "brand", "gender", "material"],
-      },
-      sizes: {
-        type: "array",
-        properties: {
-          name: { type: "string", enum: ProductSizes, errorMessage: "Should have valid size"},
-          quantity: { type: "string" }
-        }
-      },
-      price: { type: "number", errorMessage: "Should be a valid number" },
-      discount: { type: "number", errorMessage: "Should be a valid number" },
-      originalPrice: { type: "number", errorMessage: "Should be a valid number" },
-      images: {
-        type: 'array',
-      },
-      videos: {
-        type: 'array',
-      },
-      seller: {
-        type: 'string',
-        pattern: '^[a-f\\d]{24}$',
-        errorMessage: 'Should be a valid user id'
+const getProducts = {
+  type: 'object',
+  properties: {
+    name: {
+      type: 'string',
+      errorMessage: 'Name needs to be a valid value'
+    },
+    category: { type: "string", schemaKey: 'details.category', enum: ProductCategories, errorMessage: "Should be a valid category" },
+    brand: { type: "string", schemaKey: 'details.brand', enum: ProductBrands, errorMessage: "Should be a valid brand"},
+    gender: { type: "string", schemaKey: 'details.gender', enum: ProductGenders, errorMessage: "Should be a valid gender" },
+    material: { type: "string", schemaKey: 'details.material', enum: ProductMaterials, errorMessage: "Should be a valid material" },
+    sizes: {
+      type: "array",
+      properties: {
+        name: { type: "string", enum: ProductSizes, errorMessage: "Should have valid size"},
+        quantity: { type: "string" }
       }
     },
-    required: ["name", "description", "price"],
-    additionalProperties: true,
-};
+    price: { type: "string", errorMessage: "Should be a valid number" },
+    discount: { type: "string", errorMessage: "Should be a valid number" },
+  },
+  entity: 'product',
+  search: {
+    fields: [
+      { sortField: 'name', schemaKey: 'name', type: 'string' },
+      { sortField: 'category', schemaKey: 'details.category', type: 'string' },
+      { sortField: 'brand', schemaKey: 'details.brand', type: 'string' },
+      { sortField: 'gender', schemaKey: 'details.gender', type: 'string' },
+      { sortField: 'material', schemaKey: 'details.material', type: 'string' },
+      { sortField: 'price', schemaKey: 'price', type: 'string' },
+      { sortField: 'discount', schemaKey: 'discount', type: 'string' }
+    ]
+  },
+}
 
 const defaultProjectionQuery = {
   name: 1,
@@ -73,7 +60,7 @@ const defaultPopulateQuery = [
 ]
   
 export default {
-  createProduct,
+  getProducts,
   defaultProjectionQuery,
   defaultPopulateQuery
 };

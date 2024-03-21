@@ -1,7 +1,7 @@
 import mongoose from 'mongoose'
 const ObjectId = mongoose.Types.ObjectId
 const Schema = mongoose.Schema
-import { ProductCategories, ProductBrands, ProductGenders, ProductMaterials, ProductSizes } from '../constants/product.enum.js'
+import { ProductCategories, ProductBrands, ProductGenders, ProductMaterials, ProductSizes } from '../constants/enums/product.enum.js'
 
 const productSchema = new Schema({
   name: {
