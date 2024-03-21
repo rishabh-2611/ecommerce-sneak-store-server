@@ -11,7 +11,7 @@ const router = Router()
 
 router.get('/products/',
   authenticationMiddleware.authenticate,
-  validate(productSchema.getProducts),
+  // validate(productSchema.getProducts),
   helperUtils.queryBuilder(productSchema.getProducts, productSchema.defaultPopulateQuery),
   sellerController.getProducts)
 

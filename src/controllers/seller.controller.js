@@ -2,12 +2,14 @@
 import mongoose from "mongoose";
 /** Import App Modules */
 import productRepo from "../repositories/product.repo.js";
+import sellerRepo from "../repositories/seller.repo.js";
 import generalUtil from "../utils/general.util.js";
 
 const ObjectId = mongoose.Types.ObjectId;
 
 async function getProducts (req, res) {
   try {
+    req.customQuery = {seller: req.user._id}
     const [recordsCount, filteredCount, productDetails] = await productRepo.getProductsWithCount(
       req.customQuery, req.sort, req.skip, req.limit, req.projectionQuery, req.aggregation, req.populateQuery
     )
@@ -40,7 +42,7 @@ async function createProduct(req, res) {
   try {
     const productObj = req.body;
     productObj.seller = req.user._id
-    const newProduct = await productRepo.createProduct(productObj);
+    const newProduct = await sellerRepo.createProduct(productObj);
     return res.json({ message: 'Product added successfully', data: newProduct });
   } catch (err) {
     console.error("Error - createProduct", err.message);
@@ -57,7 +59,7 @@ async function updateProduct(req, res) {
     }
     
     const update = req.body;
-    const updatedProduct = await productRepo.updateProduct(filterQuery, update);
+    const updatedProduct = await sellerRepo.updateProduct(filterQuery, update);
     return res.json({ data: updatedProduct });
   } catch (err) {
     console.error("Error - updateProduct", err.message);
@@ -74,7 +76,7 @@ async function deleteProduct(req, res) {
       return res.status(400).json({ message: "Product does not exist" });
     }
 
-    const result = await productRepo.deleteProduct(filterQuery)
+    const result = await sellerRepo.deleteProduct(filterQuery)
     if (!result.acknowledged) return res.status(500).json({ message: 'Error deleting item' })
     if (!result.deletedCount) return res.status(404).json({ message: 'Error deleting item' })
     return res.json({ message: 'Product deleted successfully' })
