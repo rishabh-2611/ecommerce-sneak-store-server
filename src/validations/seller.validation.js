@@ -56,6 +56,7 @@ const defaultProjectionQuery = {
   discount: 1,
   price: 1,
   images: 1,
+  status: 1,
   rating: 1,
   totalRatings: 1,
   seller: 1
